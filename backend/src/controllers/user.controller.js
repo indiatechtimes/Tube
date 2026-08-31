@@ -56,7 +56,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 
     // get user detail from frontend
-    const { fullName, email, userName, password } = req.body;
+    const { fullName, email, userName, password } = req.body || {};
 
     // for testing
     // console.log("fullName:", fullName);
@@ -158,7 +158,9 @@ const loginUser = asyncHandler(async (req, res) => {
     //access and refresh token(generate)
     //send cookie
 
-    const { email, userName, password } = req.body;
+    const { email, userName, password } = req.body || {};
+
+    console.log(`${email},${password},${userName}`);
 
     if (!(email || userName)) {
         throw new ApiError(400, "username or email is required")
@@ -295,7 +297,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
-    const { oldPassword, newPassword } = req.body;
+    const { oldPassword, newPassword } = req.body || {};
     const user = await User.findById(req.user?._id);
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
@@ -330,7 +332,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
-    const { fullName, email } = req.body;
+    const { fullName, email } = req.body || {};
     if (!(fullName || email)) {
         throw new ApiError(400, "All fields are required!");
     };
@@ -384,6 +386,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
 });
 
 // create updateUserCoverImage 
+// i can create (updateUserCoverImage) endpoit as same as (updateUserAvatar)
 
 
 const getUserChannelProfile = asyncHandler(async (req, res) => {
@@ -398,8 +401,9 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
                 userName: userName?.toLowerCase()
             },
 
-
+            
         },
+
         {
             $lookup: {
                 from: "subscriptions",
@@ -528,7 +532,7 @@ const getWatchHistory = asyncHandler(async (req, res) => {
 
 })
 
-// i can create (updateUserCoverImage) endpoit as same as (updateUserAvatar)
+
 
 
 
