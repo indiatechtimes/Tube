@@ -8,8 +8,7 @@ const app = express();
 
 
 
-// routes import
-import userRouter from "./routes/user.routes.js";
+
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
@@ -49,13 +48,31 @@ app.get("/api/v1/health", (req, res) => {
 
 
 
-// // routes import
-// import userRouter from "./routes/user.routes.js";
+
 
 
 
 // routes declaration
+import healthcheckRouter from "./routes/healthcheck.routes.js";
+import userRouter from "./routes/user.routes.js";
+import videoRouter from "./routes/video.routes.js";
+
+
+
+
+
+// HEALTHCHECK ROUTE
+app.use("/api/v1/healthcheck", healthcheckRouter);
+
+// USER ROUTE
 app.use("/api/v1/users", userRouter);
+
+// VIDEO ROUTE
+app.use("/api/v1/videos",videoRouter)
+
+
+
+
 
 
 
