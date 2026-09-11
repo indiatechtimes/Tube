@@ -140,15 +140,38 @@ const getVideoById = asyncHandler(async (req, res) => {
         .status(200)
         .json(
             new ApiResponse(200, video, "video fetched")
-    )
+        )
 
 
 
 
+});
+
+
+const updateVideo = asyncHandler(async (req, res) => {
+    
+});
+
+
+const deleteVideo = asyncHandler(async (req, res) => {
+
+    const { videoId } = req.params;
+    
+    const user = req.user?._id;
+
+    if (!user) {
+        throw new ApiError(401, "unauthorized");
+    };
+
+    const deleted = await Video.findByIdAndDelete(videoId);
+    
+    console.log(deleted);
+    
 })
 
 export {
     getAllVideos,
     publishAVideo,
-    getVideoById
+    getVideoById,
+    deleteVideo
 }
