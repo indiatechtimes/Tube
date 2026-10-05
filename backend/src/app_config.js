@@ -49,9 +49,6 @@ app.get("/api/v1/health", (req, res) => {
 
 
 
-
-
-
 // routes declaration
 import healthcheckRouter from "./routes/healthcheck.routes.js";
 import userRouter from "./routes/user.routes.js";
