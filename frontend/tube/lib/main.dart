@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tube/features/presentation/screens/home_multipleStateManage.dart';
+import 'package:tube/features/presentation/screens/state_widget/consumerStatefullWidget.dart';
+//import 'package:tube/features/presentation/screens/state_widget/consumer_widget.dart';
+//import 'package:tube/features/presentation/screens/state_widget/stateful_widget.dart';
+//import 'package:tube/features/presentation/screens/home_multipleStateManage2.dart';
+//import 'package:tube/features/presentation/screens/state_widget/stateless_widget.dart';
 //import 'package:tube/features/presentation/screens/home_screen.dart';
 //import 'package:tube/features/presentation/screens/home_screen2.dart';
 
 void main() {
   runApp(ProviderScope(child: const MyApp()));
-  print("runApp MyApp is running");
+  print("runApp MyApp is build");
 }
 
 class MyApp extends ConsumerWidget {
@@ -16,7 +21,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final current = ref.watch(isDarkModeProvider);
-    print("MyApp statelessWidget is runnung");
+    print("MyApp statelessWidget is build");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -26,7 +31,7 @@ class MyApp extends ConsumerWidget {
           brightness: current ? Brightness.dark : Brightness.light,
         ),
       ),
-      home: const HomeMultiplestatemanage(),
+      home: const csfw(),
     );
   }
 }

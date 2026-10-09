@@ -14,7 +14,7 @@ final isDarkModeProvider = StateProvider<bool>((ref) {
   return false;
 });
 
-final price = 999;
+final price = 120000;
 
 class HomeMultiplestatemanage extends ConsumerWidget {
   const HomeMultiplestatemanage({super.key});
@@ -66,7 +66,7 @@ class HomeMultiplestatemanage extends ConsumerWidget {
 
           CheckboxListTile(
             title: Text("Iphone 18 "),
-            subtitle: Text('price: 999'),
+            subtitle: Text('price: 120000'),
             value: isSelected,
             onChanged: (value) {
               ref.read(isSelectedProvider.notifier).state = value ?? false;
@@ -78,9 +78,22 @@ class HomeMultiplestatemanage extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.remove)),
+              IconButton(
+                onPressed: () {
+                  quantity > 1
+                      ? ref.read(quantityProvider.notifier).state--
+                      : null;
+                },
+                icon: Icon(Icons.remove),
+              ),
               SizedBox(width: 10),
-              IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+              Text('Quantity : $quantity'),
+              IconButton(
+                onPressed: () {
+                  ref.read(quantityProvider.notifier).state++;
+                },
+                icon: Icon(Icons.add),
+              ),
             ],
           ),
 
