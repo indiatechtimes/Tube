@@ -4,7 +4,7 @@ import 'dart:io';
 //import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:tube/core/config/api_config.dart';
-import 'package:tube/features/auth/data/models/registered_user.dart';
+import 'package:tube/features/auth/data/models/registeredUser.model.dart';
 
 class AuthRepository {
   Future<RegisteredUser> register({
