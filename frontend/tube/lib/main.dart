@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tube/features/presentation/screens/homeNotifier_provider.dart';
+import 'package:tube/features/auth/data/screens/registrationScreen.dart';
+//import 'package:tube/features/presentation/screens/homeNotifier_provider.dart';
 import 'package:tube/features/presentation/screens/home_multipleStateManage.dart';
 //import 'package:tube/features/presentation/screens/state_widget/consumerStatefullWidget.dart';
 //import 'package:tube/features/presentation/screens/state_widget/consumer_widget.dart';
@@ -32,7 +33,7 @@ class MyApp extends ConsumerWidget {
           brightness: current ? Brightness.dark : Brightness.light,
         ),
       ),
-      home: const HomenotifierProvider(),
+      home: const RegistrationScreen(),
     );
   }
 }
