@@ -1,13 +1,103 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:tube/features/auth/data/models/registeredUser.model.dart';
+import 'package:tube/features/auth/data/providers/auth_provider.dart';
+//import 'package:tube/features/presentation/screens/home_screen.dart';
 
+class Registrationscreen extends ConsumerStatefulWidget {
+  const Registrationscreen({super.key});
 
+  @override
+  ConsumerState<Registrationscreen> createState() => _RegistrationscreenState();
+}
 
+class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
+  final _formKey = GlobalKey<FormState>();
 
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _userNameController = TextEditingController();
+  final _passwordController = TextEditingController();
 
+  final _picker = ImagePicker();
 
+  XFile? _avatar;
+  XFile? _coverImage;
 
+  Future<void> _pickAvatar() async {
+    final image = await _picker.pickImage(source: ImageSource.gallery);
 
+    if (image != null && mounted) {
+      setState(() {
+        _avatar = image;
+      });
+    }
+  }
 
+  Future<void> _pickCoverImage() async {
+    final Image = await _picker.pickImage(source: ImageSource.gallery);
 
+    if (Image != null && mounted) {
+      setState(() {
+        _coverImage = Image;
+      });
+    }
+  }
+
+  Future<void> _submit() async {
+    // validate Text fields.
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    // check required avatar.
+    if (_avatar == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Select an Avatar")));
+      return;
+    }
+
+    // send the input to the notifier
+    await ref
+        .read(authProvider.notifier)
+        .register(
+          fullName: _fullNameController.text,
+          email: _emailController.text,
+          userName: _userNameController.text,
+          password: _passwordController.text,
+          avatar: _avatar!,
+          coverImage: _coverImage,
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // listen for one-time effects
+    ref.listen<AsyncValue<RegisteredUser?>>(authProvider, (previous, next) {
+      next.whenOrNull(
+        data: (user) {
+          if (user == null) {
+            return;
+          }
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Welcome ${user.fullName}!')));
+        },
+        error: (error, stackTrace) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(error.toString().replaceFirst('Exception: ', "")),
+            ),
+          );
+        },
+      );
+    });
+
+    return const Scaffold();
+  }
+}
 
 // import 'dart:io';
 

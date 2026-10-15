@@ -20,6 +20,8 @@ class AuthRepository {
   }) async {
     if (baseUrl.trim().isEmpty) {
       throw Exception('Base URL is empty');
+    } else {
+      print('BaseUrl = $baseUrl');
     }
 
     final uri = Uri.parse('$baseUrl/api/v1/users/register');

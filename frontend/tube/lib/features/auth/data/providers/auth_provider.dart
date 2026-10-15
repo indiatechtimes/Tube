@@ -1,20 +1,51 @@
+import 'package:image_picker/image_picker.dart';
+import 'package:riverpod/riverpod.dart';
+import 'package:tube/core/config/api_config.dart';
+import 'package:tube/features/auth/data/models/registeredUser.model.dart';
+import 'package:tube/features/auth/data/repositories/auth_repository.dart';
 
+// 1 > Repository provider
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  return AuthRepository(baseUrl: ApiConfig.baseUrl);
+});
 
+// 2 > controller
+class AuthNotifier extends AsyncNotifier<RegisteredUser?> {
+  @override
+  Future<RegisteredUser?> build() async => null;
 
+  // 2.1 > Registration operation
 
+  Future<void> register({
+    required String fullName,
+    required String email,
+    required String userName,
+    required String password,
+    required XFile avatar,
+    XFile? coverImage,
+  }) async {
+    state = const AsyncLoading();
 
+    state = await AsyncValue.guard(() async {
+      final repository = ref.read(authRepositoryProvider);
 
+      final user = await repository.register(
+        fullName: fullName,
+        email: email,
+        userName: userName,
+        password: password,
+        avatar: avatar,
+        coverImage: coverImage,
+      );
+      return user;
+    });
+  }
+}
 
-
-
-
-
-
-
-
-
-
-
+// 3 > AsyncNotifierProvider
+final authProvider = AsyncNotifierProvider<AuthNotifier, RegisteredUser?>(
+  AuthNotifier.new,
+);
 
 
 
