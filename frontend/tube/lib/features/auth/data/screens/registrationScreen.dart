@@ -74,6 +74,15 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
 
   @override
   Widget build(BuildContext context) {
+    // next.whenOrNull(
+    //   data: (user) {
+    //      Success handling
+    //   },
+    //   error: (error, stackTrace) {
+    //      Error handling
+    //   },
+    // );
+
     // listen for one-time effects
     ref.listen<AsyncValue<RegisteredUser?>>(authProvider, (previous, next) {
       next.whenOrNull(
@@ -95,7 +104,132 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
       );
     });
 
-    return const Scaffold();
+    // watch the state to rebuild the UI
+
+    final authState = ref.watch(authProvider);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Register", style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
+      body: SafeArea(
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.all(20),
+
+            children: [
+              TextFormField(
+                controller: _fullNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Full Name',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Enter Your Full Name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+
+                  labelText: 'Email',
+                ),
+                validator: (value) {
+                  final email = value?.trim() ?? '';
+                  if (email.isEmpty) {
+                    return 'Enter Your Email';
+                  }
+                  if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email)) {
+                    return 'Enter a valid email';
+                  }
+
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _userNameController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'User Name',
+                ),
+
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Enter Your User Name';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                ),
+                validator: (value) {
+                  if (value == null ||
+                      value.trim().isEmpty ||
+                      value.length < 8) {
+                    return "Password must be 8 characters";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+
+              OutlinedButton(
+                onPressed: authState.isLoading ? null : _pickAvatar,
+                child: Text(
+                  _avatar == null
+                      ? 'select avatar'
+                      : 'avatar selected:${_avatar!.name}',
+                ),
+              ),
+
+              SizedBox(height: 16),
+              OutlinedButton(
+                onPressed: authState.isLoading ? null : _pickCoverImage,
+                child: Text(
+                  _coverImage == null
+                      ? 'select cover image (Optional)'
+                      : 'cover image selected: ${_coverImage!.name}',
+                ),
+              ),
+
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: authState.isLoading ? null : _submit,
+                child: authState.isLoading
+                    ? const CircularProgressIndicator()
+                    : Text('Register'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _userNameController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
+    
   }
 }
 

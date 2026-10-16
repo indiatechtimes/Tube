@@ -33,7 +33,7 @@ class MyApp extends ConsumerWidget {
           brightness: current ? Brightness.dark : Brightness.light,
         ),
       ),
-      home: const RegistrationScreen(),
+      home: const Registrationscreen(),
     );
   }
 }
