@@ -26,6 +26,7 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
   XFile? _coverImage;
 
   Future<void> _pickAvatar() async {
+    print("_pickAvatar");
     final image = await _picker.pickImage(source: ImageSource.gallery);
 
     if (image != null && mounted) {
@@ -36,6 +37,7 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
   }
 
   Future<void> _pickCoverImage() async {
+    print("_pickCoverImage");
     final Image = await _picker.pickImage(source: ImageSource.gallery);
 
     if (Image != null && mounted) {
@@ -46,6 +48,7 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
   }
 
   Future<void> _submit() async {
+    print("_submit button is pressed");
     // validate Text fields.
     if (!_formKey.currentState!.validate()) {
       return;
@@ -74,6 +77,7 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("home build");
     // next.whenOrNull(
     //   data: (user) {
     //      Success handling
@@ -119,6 +123,14 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
             padding: const EdgeInsets.all(20),
 
             children: [
+              ClipOval(
+                child: Image.asset(
+                  'assets/images/registerImage.jpg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+
+              SizedBox(height: 16),
               TextFormField(
                 controller: _fullNameController,
                 decoration: const InputDecoration(
@@ -229,7 +241,6 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
     _passwordController.dispose();
 
     super.dispose();
-    
   }
 }
 

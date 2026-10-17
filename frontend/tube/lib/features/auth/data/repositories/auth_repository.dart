@@ -10,6 +10,8 @@ class AuthRepository {
 
   AuthRepository({required this.baseUrl});
 
+
+// this is the function responsible for user registration
   Future<RegisteredUser> register({
     required String fullName,
     required String email,

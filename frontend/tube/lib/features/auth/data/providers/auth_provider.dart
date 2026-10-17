@@ -24,6 +24,7 @@ class AuthNotifier extends AsyncNotifier<RegisteredUser?> {
     required XFile avatar,
     XFile? coverImage,
   }) async {
+    print("auth_providr is created");
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
