@@ -2,15 +2,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:tube/core/config/api_config.dart';
 import 'package:tube/features/auth/data/models/registeredUser.model.dart';
-import 'package:tube/features/auth/data/repositories/auth_repository.dart';
+import 'package:tube/features/auth/data/repositories/Registration_Repository.dart';
 
 // 1 > Repository provider
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepository(baseUrl: ApiConfig.baseUrl);
+final registrationRepositoryProvider = Provider<RegistrationRepository>((ref) {
+  return RegistrationRepository(baseUrl: ApiConfig.baseUrl);
 });
 
 // 2 > controller
-class AuthNotifier extends AsyncNotifier<RegisteredUser?> {
+class RegistrationNotifier extends AsyncNotifier<RegisteredUser?> {
   @override
   Future<RegisteredUser?> build() async => null;
 
@@ -28,7 +28,7 @@ class AuthNotifier extends AsyncNotifier<RegisteredUser?> {
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(authRepositoryProvider);
+      final repository = ref.read(registrationRepositoryProvider);
 
       final user = await repository.register(
         fullName: fullName,
@@ -44,8 +44,8 @@ class AuthNotifier extends AsyncNotifier<RegisteredUser?> {
 }
 
 // 3 > AsyncNotifierProvider
-final authProvider = AsyncNotifierProvider<AuthNotifier, RegisteredUser?>(
-  AuthNotifier.new,
+final registrationProvider = AsyncNotifierProvider<RegistrationNotifier, RegisteredUser?>(
+  RegistrationNotifier.new,
 );
 
 
@@ -117,7 +117,7 @@ final authProvider = AsyncNotifierProvider<AuthNotifier, RegisteredUser?>(
 // import 'package:tube/features/auth/data/models/registeredUser.model.dart';
 // import 'package:tube/features/auth/data/repositories/auth_repository.dart';
 
-// final authRepositoryProvider = Provider<AuthRepository>((ref) {
+// final registrationRepositoryProvider = Provider<AuthRepository>((ref) {
 //   return AuthRepository();
 // });
 
@@ -141,7 +141,7 @@ final authProvider = AsyncNotifierProvider<AuthNotifier, RegisteredUser?>(
 //     state = const AsyncLoading<RegisteredUser?>();
 
 //     state = await AsyncValue.guard(() async {
-//       final repository = ref.read(authRepositoryProvider);
+//       final repository = ref.read(registrationRepositoryProvider);
 
 //       return await repository.register(
 //         fullName: fullName,

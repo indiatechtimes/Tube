@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tube/features/auth/data/authSessions/auth_sessions_provider.dart';
 import 'package:tube/features/auth/data/models/registeredUser.model.dart';
-import 'package:tube/features/auth/data/providers/auth_provider.dart';
+import 'package:tube/features/auth/data/providers/registration_provider.dart';
 //import 'package:tube/features/presentation/screens/home_screen.dart';
 
 class Registrationscreen extends ConsumerStatefulWidget {
@@ -64,7 +66,7 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
 
     // send the input to the notifier
     await ref
-        .read(authProvider.notifier)
+        .read(registrationProvider.notifier)
         .register(
           fullName: _fullNameController.text,
           email: _emailController.text,
@@ -88,15 +90,22 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
     // );
 
     // listen for one-time effects
-    ref.listen<AsyncValue<RegisteredUser?>>(authProvider, (previous, next) {
+    ref.listen<AsyncValue<RegisteredUser?>>(registrationProvider, (
+      previous,
+      next,
+    ) {
       next.whenOrNull(
         data: (user) {
           if (user == null) {
             return;
           }
+
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text('Welcome ${user.fullName}!')));
+
+          ref.read(authSessionsProvider.notifier).markLoggedIn();
+          context.go('/login');
         },
         error: (error, stackTrace) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -110,7 +119,7 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
 
     // watch the state to rebuild the UI
 
-    final authState = ref.watch(authProvider);
+    final authState = ref.watch(registrationProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -225,6 +234,14 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
                 child: authState.isLoading
                     ? const CircularProgressIndicator()
                     : Text('Register'),
+              ),
+
+              SizedBox(height: 6),
+              TextButton(
+                onPressed: () {
+                  context.go('/login');
+                },
+                child: Text("Login Now"),
               ),
             ],
           ),

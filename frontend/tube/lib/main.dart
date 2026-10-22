@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tube/features/auth/data/screens/registrationScreen.dart';
+import 'package:tube/core/config/app_router.dart';
+//import 'package:tube/features/auth/data/screens/registrationScreen.dart';
 //import 'package:tube/features/presentation/screens/homeNotifier_provider.dart';
 import 'package:tube/features/presentation/screens/home_multipleStateManage.dart';
 //import 'package:tube/features/presentation/screens/state_widget/consumerStatefullWidget.dart';
@@ -22,18 +23,20 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
     final current = ref.watch(isDarkModeProvider);
     print("MyApp statelessWidget is build");
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      routerConfig:router,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.white,
           brightness: current ? Brightness.dark : Brightness.light,
         ),
       ),
-      home: const Registrationscreen(),
+      //home: const Registrationscreen(),
     );
   }
 }
