@@ -25,11 +25,11 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
       return;
     }
 
-    ref
+    await ref
         .read(loginProvider.notifier)
         .loginUser(
           userName: _userNameController.text,
-          email: _emailController.text,
+          email: _emailController.text.trim(),
           password: _passwordController.text,
         );
   }
@@ -132,9 +132,7 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
               SizedBox(height: 16),
 
               ElevatedButton(
-                onPressed: () {
-                  loginState.isLoading ? null : _submit();
-                },
+                onPressed: loginState.isLoading?null:_submit,
                 child: loginState.isLoading
                     ? CircularProgressIndicator()
                     : Text(
@@ -155,5 +153,14 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _userNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
   }
 }

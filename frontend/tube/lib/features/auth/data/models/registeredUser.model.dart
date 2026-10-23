@@ -1,18 +1,20 @@
 class RegisteredUser {
   final String id;
-  
+
   final String fullName;
   final String email;
   final String userName;
   final String avatar;
+  final String coverImage;
 
   const RegisteredUser({
     required this.id,
-    
+
     required this.fullName,
     required this.email,
     required this.userName,
     required this.avatar,
+    required this.coverImage,
   });
 
   factory RegisteredUser.fromJson(Map<String, dynamic> json) {
@@ -20,9 +22,9 @@ class RegisteredUser {
       id: json['_id']?.toString() ?? '',
       fullName: json['fullName'] ?? '',
       email: json['email'] ?? '',
-      userName: json['userName']?? '',
-      avatar: json['avatar']??'',
-
+      userName: json['userName'] ?? '',
+      avatar: json['avatar'] ?? '',
+      coverImage: json['coverImage']?.toString()??'',
     );
   }
 } 
