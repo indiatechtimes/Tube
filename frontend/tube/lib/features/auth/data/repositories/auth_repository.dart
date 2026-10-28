@@ -16,11 +16,14 @@ class AuthRepository {
   AuthRepository({required this.baseUrl, http.Client? client})
     : client = client ?? http.Client();
 
+
+    
+
   Map<String, dynamic> _decodeResponse(http.Response response) {
     final decoded = jsonDecode(response.body);
 
     if (decoded is! Map<String, dynamic>) {
-      throw Exception("Ivalid API response");
+      throw Exception("Invalid API response");
     }
 
     return decoded;

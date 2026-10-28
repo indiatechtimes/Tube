@@ -219,7 +219,8 @@ const logoutUser = asyncHandler(async (req, res) => {
         req.user._id,
         {
             $unset: {
-                refreshToken: 1
+                refreshToken: 1,
+                accessToken: 1
             }
 
         },
@@ -401,7 +402,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
                 userName: userName?.toLowerCase()
             },
 
-            
+
         },
 
         {

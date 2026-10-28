@@ -48,22 +48,23 @@ final routerProvider = Provider<GoRouter>((ref) {
         return location == '/splash' ? null : '/splash';
       }
 
-      final isLoggedIn = authState.asData?.value ?? false;
+      if (authState.hasError) {
+        return location == '/splash' ? null : '/splash';
+      }
+
+      final session = authState.asData?.value;
+      final isLoggedIn = session != null;
 
       final isPublicRoute = location == '/login' || location == '/register';
-
-      // a logged-out user cannnot access protected routes.
 
       if (!isLoggedIn && !isPublicRoute && location != '/splash') {
         return '/login';
       }
 
-      //rosolve the splash sereen once the session checked finishes.
       if (location == '/splash') {
         return isLoggedIn ? '/home' : '/login';
       }
 
-      // an authenticated user should not remain on login / register
       if (isLoggedIn && isPublicRoute) {
         return '/home';
       }

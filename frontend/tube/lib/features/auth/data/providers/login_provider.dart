@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 //import 'package:riverpod/src/framework.dart';
 import 'package:tube/core/config/api_config.dart';
+import 'package:tube/features/auth/data/authSessions/auth_sessions_provider.dart';
 import 'package:tube/features/auth/data/models/loginUser.model.dart';
 //import 'package:tube/features/auth/data/providers/auth_provider.dart';
 import 'package:tube/features/auth/data/repositories/login_repository.dart';
@@ -30,6 +31,8 @@ class LoginNotifier extends AsyncNotifier<LoginUser?> {
         email: email,
         password: password,
       );
+
+      await ref.read(authSessionsProvider.notifier).logIn(user);
       return user;
     });
   }
