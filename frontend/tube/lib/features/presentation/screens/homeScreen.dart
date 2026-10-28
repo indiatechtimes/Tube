@@ -13,10 +13,22 @@ class Homescreen extends ConsumerWidget {
         title: const Text("Home"),
         actions: [
           IconButton(
-            onPressed: () {
-              ref.read(authSessionsProvider.notifier).logout();
+            onPressed: () async {
+              try {
+                await ref.read(authSessionsProvider.notifier).logout();
+              } catch (_) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Logged out locally, but server logout may have failed.',
+                      ),
+                    ),
+                  );
+                }
+              }
             },
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),

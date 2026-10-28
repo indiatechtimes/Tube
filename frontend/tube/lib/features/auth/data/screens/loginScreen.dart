@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tube/features/auth/data/authSessions/auth_sessions_provider.dart';
+//import 'package:tube/features/auth/data/authSessions/auth_sessions_provider.dart';
 import 'package:tube/features/auth/data/models/loginUser.model.dart';
 import 'package:tube/features/auth/data/providers/login_provider.dart';
 //import 'package:tube/features/presentation/screens/home_screen.dart';
@@ -47,8 +47,7 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
             context,
           ).showSnackBar(SnackBar(content: Text('Welcome ${user.userName}!')));
 
-          ref.read(authSessionsProvider.notifier).markLoggedIn();
-          context.go('/home');
+          
         },
 
         error: (error, stackTrace) {
