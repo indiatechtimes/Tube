@@ -12,9 +12,9 @@ import 'package:tube/features/presentation/screens/home_multipleStateManage.dart
 //import 'package:tube/features/presentation/screens/home_screen.dart';
 //import 'package:tube/features/presentation/screens/home_screen2.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(ProviderScope(child: const MyApp()));
-  print("runApp MyApp is build");
 }
 
 class MyApp extends ConsumerWidget {
@@ -25,11 +25,11 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final current = ref.watch(isDarkModeProvider);
-    print("MyApp statelessWidget is build");
+    
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      routerConfig:router,
+      routerConfig: router,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.white,

@@ -100,9 +100,13 @@ class _RegistrationscreenState extends ConsumerState<Registrationscreen> {
             return;
           }
 
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('Welcome ${user.fullName}!')));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'You are Registered Successfully,Please Login! ${user.fullName}',
+              ),
+            ),
+          );
 
           context.go('/login');
         },
