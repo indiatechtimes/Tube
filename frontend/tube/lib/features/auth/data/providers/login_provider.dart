@@ -23,6 +23,8 @@ class LoginNotifier extends AsyncNotifier<LoginUser?> {
     required String password,
   }) async {
     state = const AsyncLoading();
+    print('state= $state');
+
     state = await AsyncValue.guard(() async {
       final repository = ref.read(loginRepositoryProvider);
 
@@ -35,6 +37,8 @@ class LoginNotifier extends AsyncNotifier<LoginUser?> {
       await ref.read(authSessionsProvider.notifier).logIn(user);
       return user;
     });
+
+    print('state=$state');
   }
 }
 

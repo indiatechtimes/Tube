@@ -46,8 +46,6 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text('Welcome ${user.userName}!')));
-
-          
         },
 
         error: (error, stackTrace) {
@@ -61,6 +59,8 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
     });
 
     final loginState = ref.watch(loginProvider);
+    print('loginStete= $loginState');
+    
 
     return Scaffold(
       appBar: AppBar(
@@ -131,7 +131,7 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
               SizedBox(height: 16),
 
               ElevatedButton(
-                onPressed: loginState.isLoading?null:_submit,
+                onPressed: loginState.isLoading ? null : _submit,
                 child: loginState.isLoading
                     ? CircularProgressIndicator()
                     : Text(

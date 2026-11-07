@@ -36,7 +36,8 @@ class LoginRepository {
 
     final Map<String, dynamic> body =
         jsonDecode(response.body) as Map<String, dynamic>;
-
+    print('body $body');
+    
     if (response.statusCode < 200 || response.statusCode >= 300) {
       throw Exception(
         'Request failed with status ${response.statusCode}: ${response.body}',
@@ -46,8 +47,6 @@ class LoginRepository {
     final user = body['data'] as Map<String, dynamic>;
 
     print('user= $user');
-
-  
 
     return LoginUser.fromJson(user);
   }
