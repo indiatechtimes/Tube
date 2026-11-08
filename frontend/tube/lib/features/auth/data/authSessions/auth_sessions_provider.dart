@@ -26,9 +26,10 @@ final authHttpClientProvider = Provider<http.Client>((ref) {
   return client;
 });
 
-final authSessionsProvider = AsyncNotifierProvider<AuthSessionsNotifier, AuthSession?>(
-  AuthSessionsNotifier.new,
-);
+final authSessionsProvider =
+    AsyncNotifierProvider<AuthSessionsNotifier, AuthSession?>(
+      AuthSessionsNotifier.new,
+    );
 
 class AuthSessionsNotifier extends AsyncNotifier<AuthSession?> {
   late SecureTokenStorage _storage;
@@ -37,9 +38,15 @@ class AuthSessionsNotifier extends AsyncNotifier<AuthSession?> {
   @override
   Future<AuthSession?> build() async {
     _storage = ref.read(secureTokenStorageProvider);
+    print('_storage = $_storage');
+
     _authRepository = ref.read(authRopositoryProvider);
 
+    print('_authRepository= $_authRepository');
+
     final refreshToken = await _storage.readRefreshToken();
+
+    print('refreshToken= $refreshToken');
 
     if (refreshToken == null || refreshToken.isEmpty) {
       return null;
@@ -47,6 +54,7 @@ class AuthSessionsNotifier extends AsyncNotifier<AuthSession?> {
 
     try {
       final tokens = await _authRepository.refreshTokens(refreshToken);
+      print('tokens= $tokens');
 
       // save the rotated token before continuing.
       await _storage.saveTokens(
@@ -55,6 +63,8 @@ class AuthSessionsNotifier extends AsyncNotifier<AuthSession?> {
       );
 
       final userJson = await _authRepository.getCurrentUser(tokens.accessToken);
+
+      print('userJson= $userJson');
 
       return AuthSession.fromJson(userJson, accessToken: tokens.accessToken);
     } on AuthApiException catch (error) {
@@ -68,6 +78,9 @@ class AuthSessionsNotifier extends AsyncNotifier<AuthSession?> {
   }
 
   Future<void> logIn(LoginUser user) async {
+    print('login= $user');
+    print('login= ${user.accessToken}');
+    print('login = ${user.refreshToken}');
     if (user.accessToken.isEmpty || user.refreshToken.isEmpty) {
       throw Exception("Login response is missing tokens");
     }
@@ -77,7 +90,11 @@ class AuthSessionsNotifier extends AsyncNotifier<AuthSession?> {
       refreshToken: user.refreshToken,
     );
 
+    print("user , accessToken and refreshToken is saved");
+
     state = AsyncData(AuthSession.fromLoginUser(user));
+
+    print("state is changed to asyncData");
   }
 
   Future<void> logout() async {

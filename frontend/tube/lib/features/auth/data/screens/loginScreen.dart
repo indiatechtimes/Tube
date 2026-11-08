@@ -46,6 +46,7 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text('Welcome ${user.userName}!')));
+          context.go('/home');
         },
 
         error: (error, stackTrace) {
@@ -60,7 +61,6 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
 
     final loginState = ref.watch(loginProvider);
     print('loginStete= $loginState');
-    
 
     return Scaffold(
       appBar: AppBar(

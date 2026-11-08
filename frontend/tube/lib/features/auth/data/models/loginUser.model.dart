@@ -34,6 +34,7 @@ class LoginUser {
   });
 
   factory LoginUser.fromJson(Map<String, dynamic> json) {
+    print('loginUser.model is created');
     return LoginUser(
       statusCode: json['statusCode']?.toString() ?? '',
       id: json['_id']?.toString() ?? '',

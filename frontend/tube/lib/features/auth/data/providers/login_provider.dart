@@ -34,9 +34,14 @@ class LoginNotifier extends AsyncNotifier<LoginUser?> {
         password: password,
       );
 
+      print('user=$user');
+      print('till now accessToken and refreshToken is not saved');
+
       await ref.read(authSessionsProvider.notifier).logIn(user);
       return user;
     });
+
+   
 
     print('state=$state');
   }
