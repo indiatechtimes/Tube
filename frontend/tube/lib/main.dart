@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tube/core/config/app_router.dart';
+import 'package:tube/features/auth/data/authSessions/auth_sessions_provider.dart';
 //import 'package:tube/features/auth/data/screens/registrationScreen.dart';
 //import 'package:tube/features/presentation/screens/homeNotifier_provider.dart';
 import 'package:tube/features/presentation/screens/home_multipleStateManage.dart';
@@ -24,9 +25,15 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-  
     final router = ref.watch(routerProvider);
     final current = ref.watch(isDarkModeProvider);
+    final authState = ref.watch(authSessionsProvider);
+
+    print('AUTH STATE= $authState');
+
+    print('IS LOADING = ${authState.isLoading}');
+
+    print('HAS ERROR = ${authState.hasError}');
     print('Router=$router');
     print('current= $current');
 
