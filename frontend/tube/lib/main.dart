@@ -15,6 +15,7 @@ import 'package:tube/features/presentation/screens/home_multipleStateManage.dart
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(ProviderScope(child: const MyApp()));
+  print('main.dart');
 }
 
 class MyApp extends ConsumerWidget {
@@ -23,9 +24,12 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+  
     final router = ref.watch(routerProvider);
     final current = ref.watch(isDarkModeProvider);
-    
+    print('Router=$router');
+    print('current= $current');
+
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

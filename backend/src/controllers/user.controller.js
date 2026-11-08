@@ -275,18 +275,18 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
             semeSite: 'strict',
         }
 
-        const { newAccessToken, newRefreshToken } = await generateAccessAndRefreshTokens(user._id);
+        const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
 
         return res
             .status(200)
-            .cookie("accessToken", newAccessToken, options)
-            .cookie("refreshToken", newRefreshToken, options)
+            .cookie("accessToken", accessToken, options)
+            .cookie("refreshToken", refreshToken, options)
             .json(
                 new ApiResponse(
                     200,
                     {
-                        accessToken: newAccessToken,
-                        refreshToken: newRefreshToken,
+                        accessToken,
+                        refreshToken,
                     },
                     "Access Token Refreshed Successfully!!"
                 )
@@ -331,7 +331,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 const getCurrentUser = asyncHandler(async (req, res) => {
     return res
         .status(200)
-        .json(200, req.user, "current user fetched successfully");
+        .json(new ApiResponse(200, req.user, "current user fetched successfully"));
 });
 
 

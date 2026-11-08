@@ -1,4 +1,3 @@
-
 import 'package:tube/features/auth/data/models/loginUser.model.dart';
 
 class AuthSession {
@@ -39,7 +38,7 @@ class AuthSession {
       email: (json['email'] ?? '').toString(),
       fullName: (json['fullName'] ?? '').toString(),
       avatar: (json['avatar'] ?? '').toString(),
-      accessToken: (json['accessToken'] ?? '').toString(),
+      accessToken: accessToken,
     );
   }
 }
