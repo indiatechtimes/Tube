@@ -37,41 +37,54 @@ class AuthSessionsNotifier extends AsyncNotifier<AuthSession?> {
 
   @override
   Future<AuthSession?> build() async {
-    _storage = ref.read(secureTokenStorageProvider);
-    print('_storage = $_storage');
-
-    _authRepository = ref.read(authRopositoryProvider);
-
-    print('_authRepository= $_authRepository');
-
-    final refreshToken = await _storage.readRefreshToken();
-
-    print('refreshToken= $refreshToken');
-
-    if (refreshToken == null || refreshToken.isEmpty) {
-      return null;
-    }
-
     try {
-      final tokens = await _authRepository.refreshTokens(refreshToken);
-      print('tokens= $tokens');
+      print('STEP 1: Auth build started');
 
-      // save the rotated token before continuing.
+      _storage = ref.read(secureTokenStorageProvider);
+      _authRepository = ref.read(authRopositoryProvider);
+
+      print('STEP 2: Dependencies initialized');
+
+      final refreshToken = await _storage.readRefreshToken();
+
+      print(
+        'STEP 3: Refresh token exists = '
+        '${refreshToken != null && refreshToken.isNotEmpty}',
+      );
+
+      if (refreshToken == null || refreshToken.isEmpty) {
+        print('STEP 4: No refresh token found');
+        return null;
+      }
+
+      print('STEP 5: Calling refresh API');
+
+      final tokens = await _authRepository.refreshTokens(refreshToken);
+
+      print('STEP 6: Refresh API successful');
+
       await _storage.saveTokens(
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
       );
 
+      print('STEP 7: New tokens saved');
+
       final userJson = await _authRepository.getCurrentUser(tokens.accessToken);
 
-      print('userJson= $userJson');
+      print('STEP 8: Current user fetched');
 
-      return AuthSession.fromJson(userJson, accessToken: tokens.accessToken);
-    } on AuthApiException catch (error) {
-      if (error.statusCode == 401 || error.statusCode == 403) {
-        await _storage.clearTokens();
-        return null;
-      }
+      final session = AuthSession.fromJson(
+        userJson,
+        accessToken: tokens.accessToken,
+      );
+
+      print('STEP 9: Session restored successfully');
+
+      return session;
+    } catch (error, stackTrace) {
+      print('AUTH RESTORATION FAILED: $error');
+      print(stackTrace);
 
       rethrow;
     }

@@ -41,7 +41,11 @@ final routerProvider = Provider<GoRouter>((ref) {
 
     redirect: (context, state) {
       final authState = ref.read(authSessionsProvider);
+      print('authState= $authState');
+
       final location = state.matchedLocation;
+
+      print('location $location');
 
       // session is still being checked
       if (authState.isLoading) {
