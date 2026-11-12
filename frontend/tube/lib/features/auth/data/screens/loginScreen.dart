@@ -39,6 +39,7 @@ class _LoginscreenState extends ConsumerState<Loginscreen> {
     ref.listen<AsyncValue<LoginUser?>>(loginProvider, (previous, next) {
       next.whenOrNull(
         data: (user) {
+          
           if (user == null) {
             return;
           }

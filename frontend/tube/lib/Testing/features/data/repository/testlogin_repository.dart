@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:tube/Testing/core/config/test_api_config.dart';
 import 'package:tube/Testing/features/data/models/testLoginUser.model.dart';
 
 class TestloginRepository {
@@ -17,7 +18,7 @@ class TestloginRepository {
       throw Exception('Base url not found');
     }
 
-    final uri = Uri.parse('testbaseUrl/api/v1/users/login');
+    final uri = Uri.parse('${TestApiConfig.testbaseUrl}/api/v1/users/login');
 
     print(uri);
 
@@ -35,6 +36,9 @@ class TestloginRepository {
       throw Exception(
         'unable to login ${response.statusCode}:${response.body}',
       );
+
+      
+      
     }
 
     print('response=$response');
@@ -42,6 +46,8 @@ class TestloginRepository {
     print('response.statusCode=${response.statusCode}');
 
     final Map<String, dynamic> body = jsonDecode(response.body);
+
+    print('body=$body');
 
     final data = body['data'];
     print('data=$data');
